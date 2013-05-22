@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from bottle import static_file, abort, Bottle, run
-import pymongo
 import json
 import urllib2
 from pybean import Store, SQLiteWriter
@@ -31,8 +30,6 @@ def index_page(page='1'):
 
 
 def showPage(page):
-    mongo_con = pymongo.Connection("192.168.1.55", 27017)
-    mongo_db = mongo_con.taobao
     itemperpage = 16
     db = Store(SQLiteWriter("taobao.db", frozen=True))
     # items = mongo_db.tabaotry.find().sort([("date", pymongo.DESCENDING), (

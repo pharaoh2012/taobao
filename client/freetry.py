@@ -4,11 +4,7 @@
 import urllib2
 import time
 import json
-import pymongo
 
-mongo_con = pymongo.Connection("192.168.1.55", 27017)
-mongo_db = mongo_con.taobao
-# mongo_db.authenticate("redhat", "3.14159")
 from pybean import Store, SQLiteWriter
 db = Store(SQLiteWriter("taobao.db", frozen=False))
 
@@ -40,7 +36,6 @@ def getList(page):
             item["date"] = date
             tb.date = date
             tb.createtime = now
-            mongo_db.tabaotry.save(item)
             db.save(tb)
 
 
