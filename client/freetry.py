@@ -24,26 +24,20 @@ def getList(page):
         tb = db.new("freetry")
         for key in item:
             tb.__setattr__(key, item[key])
-        # tb.uuid = item["itemId"]
+
         tb.gailv = item["requestNum"] / item["totalNum"]
-        item["_id"] = item["itemId"]
-        item["gailv"] = item["requestNum"] / item["totalNum"]
+        # item["_id"] = item["itemId"]
+        # item["gailv"] = item["requestNum"] / item["totalNum"]
         if db.find_one("freetry", "itemId=?", (item["itemId"],)):
-            print "skip..."
+            print "skip...", item["itemId"]
             continue
-        if item["gailv"] > 0:
-            item["createtime"] = now
-            item["date"] = date
+        if tb.gailv > 0:
             tb.date = date
             tb.createtime = now
             db.save(tb)
 
 
 if __name__ == '__main__':
-    for x in xrange(1, 3):
+    for x in xrange(1, 50):
         getList(x)
         time.sleep(5)
-    for book in db.find("freetry", "1 order by date desc,gailv  limit 0,5"):
-        print 'find'
-        print book.itemId, book.gailv, book.createtime
-        # print tojson(book)

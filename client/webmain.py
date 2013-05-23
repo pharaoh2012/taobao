@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from bottle import static_file, abort, Bottle, run
+from bottle import static_file, abort, Bottle, run, response
 import json
 import urllib2
+import re
 from pybean import Store, SQLiteWriter
 
 app = Bottle()
@@ -35,14 +36,26 @@ def showPage(page):
     items = db.find("freetry", "1 order by date desc,gailv  limit %s,%s" %
                     ((page - 1) * itemperpage, itemperpage))
     for item in items:
-        item.uuid = 1
+        item.uuid = item.itemId
         rs.append(dict(item.__dict__))
 
     return json.dumps(rs)
 
 
-def taobao(url):
-    data = urllib2.urlopen(url).read()
+@app.route('/taobao/<path:path>')
+def taobao(path):
+    print path
+    # return path
+    data = urllib2.urlopen(path).read()
+    data = data.decode('GBK')
+
+    # index = data.index('J_AttrList') + 15
+    response.set_header("Access-Control-Allow-Origin", "*")
+    index = data.index('attributes-list') + 15
+    data = data[index:]
+    index = data.index('</div>')
+    data = data[:index]
+    data = re.subn("<.+?>", "\n", data)[0]
     return data
 
 run(app, host='127.0.0.1', port=7702, server="auto",
