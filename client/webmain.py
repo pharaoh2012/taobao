@@ -44,8 +44,9 @@ def showPage(page):
 
 @app.route('/taobao/<path:path>')
 def taobao(path):
-    print path
+    path = path.replace("http:/", "http://")
     # return path
+    print "*****path=", path
     data = urllib2.urlopen(path).read()
     data = data.decode('GBK')
 

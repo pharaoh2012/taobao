@@ -4,20 +4,20 @@ function js(fileUrl) {
 	// oScript.type = "text/javascript";
 	// oScript.src = fileUrl;
 	// oHead.appendChild(oScript);
-	console.info("get url:"+fileUrl);
-	getUrl(fileUrl,urlcontent);
+	console.info("get url:" + fileUrl);
+	getUrl(fileUrl, urlcontent);
 }
 
 function getUrl(url, fn) {
-    var req = new XMLHttpRequest();
-    req.open("GET", url, true);
-    console.debug("getUrl:", url);
-    req.onreadystatechange = function() {
-        if ((req.readyState == 4) && (req.status == 200)) {
-            if (fn) fn(req.responseText);
-        }
-    };
-    req.send(null);
+	var req = new XMLHttpRequest();
+	req.open("GET", url, true);
+	console.debug("getUrl:", url);
+	req.onreadystatechange = function() {
+		if ((req.readyState == 4) && (req.status == 200)) {
+			if (fn) fn(req.responseText);
+		}
+	};
+	req.send(null);
 }
 
 function HTMLDecode(txt) {
@@ -46,9 +46,9 @@ function urlcontent(data) {
 	setAnswer(result);
 }
 
-function setAnswer (answer) {
+function setAnswer(answer) {
 	document.getElementById('J_AnswerInput').value = answer;
-	document.getElementById('J_Answer').getElementsByTagName('a')[0].click();	
+	document.getElementById('J_Answer').getElementsByTagName('a')[0].click();
 	setTimeout(function() {
 		document.getElementsByClassName("try-btn-submit")[0].click();
 	}, 2000);
@@ -56,13 +56,9 @@ function setAnswer (answer) {
 
 document.title = 'begin load';
 
-if(document.getElementById('J_Question').getElementsByTagName('em')[0].innerText=="试用品申请成功后需提交")
-{
+if (document.getElementById('J_Question').getElementsByTagName('em')[0].innerText == "试用品申请成功后需提交") {
 	setAnswer("报告");
-}
-else
-{
+} else {
 	var taobaohref = escape(document.getElementById('J_Question').getElementsByTagName('a')[0].href);
 	js("http://127.0.0.1:7702/taobao/" + taobaohref);
-
 }
