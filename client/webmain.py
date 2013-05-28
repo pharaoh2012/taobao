@@ -44,7 +44,7 @@ def showPage(page):
 
 @app.route('/taobao/<path:path>')
 def taobao(path):
-    path = path.replace("http:/", "http://")
+    path = path.replace("http:/i", "http://i")
     # return path
     print "*****path=", path
     data = urllib2.urlopen(path).read()
