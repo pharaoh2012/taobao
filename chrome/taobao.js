@@ -1,23 +1,18 @@
 function js(fileUrl) {
-	// var oHead = document.getElementsByTagName('HEAD').item(0);
-	// var oScript = document.createElement("script");
-	// oScript.type = "text/javascript";
-	// oScript.src = fileUrl;
-	// oHead.appendChild(oScript);
-	console.info("get url:"+fileUrl);
-	getUrl(fileUrl,urlcontent);
+	console.info("get url:" + fileUrl);
+	getUrl(fileUrl, urlcontent);
 }
 
 function getUrl(url, fn) {
-    var req = new XMLHttpRequest();
-    req.open("GET", url, true);
-    console.debug("getUrl:", url);
-    req.onreadystatechange = function() {
-        if ((req.readyState == 4) && (req.status == 200)) {
-            if (fn) fn(req.responseText);
-        }
-    };
-    req.send(null);
+	var req = new XMLHttpRequest();
+	req.open("GET", url, true);
+	console.debug("getUrl:", url);
+	req.onreadystatechange = function() {
+		if ((req.readyState == 4) && (req.status == 200)) {
+			if (fn) fn(req.responseText);
+		}
+	};
+	req.send(null);
 }
 
 function HTMLDecode(txt) {
@@ -42,28 +37,37 @@ function urlcontent(data) {
 	}
 	document.title = 'end';
 	var result = taobaotext.replace(proprty, '').replace(":", "").substr(1);
-	console.info(result);
 	setAnswer(result);
 }
 
-function setAnswer (answer) {
+function setAnswer(answer) {
 	document.getElementById('J_AnswerInput').value = answer;
-	document.getElementById('J_Answer').getElementsByTagName('a')[0].click();	
+	document.getElementById('J_Answer').getElementsByTagName('a')[0].click();
 	setTimeout(function() {
 		document.getElementsByClassName("try-btn-submit")[0].click();
 	}, 2000);
 }
 
-document.title = 'begin load';
+if (window.location.host == "favorite.taobao.com") {
+	document.title = 'favorite';
+	document.getElementById("PopupFavorForm").submit();
 
-if(document.getElementById('J_Question').getElementsByTagName('em')[0].innerText=="试用品申请成功后需提交")
-{
-	setAnswer("报告");
-}
-else
-{
-	var taobaohref = encodeURIComponent(document.getElementById('J_Question').getElementsByTagName('a')[0].href);
-	js("http://127.0.0.1:7702/taobao/" + taobaohref);
-	console.info("taobaourl:","http://127.0.0.1:7702/taobao/" + taobaohref);
+} else if (window.location.host == "try.taobao.com") {
+	document.title = 'begin load';
+	if (document.getElementById('J_Question').getElementsByTagName('em')[0].innerText == "试用品申请成功后需提交") {
+		setAnswer("报告");
+	} else {
+		var taobaohref = escape(document.getElementById('J_Question').getElementsByTagName('a')[0].href);
+		js("http://127.0.0.1:7702/taobao/" + taobaohref);
+	}
 
+	var msg = {
+		"url": document.getElementById("J_Favorite").getElementsByTagName('a')[0].href,
+	};
+	chrome.runtime.sendMessage(msg, function(response) {
+		console.log(response);
+	});
+
+	console.info("open:", document.getElementById("J_Favorite").getElementsByTagName('a')[0].href);
+	//open(document.getElementById("J_Favorite").getElementsByTagName('a')[0].href);
 }

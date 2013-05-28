@@ -42,7 +42,7 @@ function urlcontent(data) {
 	}
 	document.title = 'end';
 	var result = taobaotext.replace(proprty, '').replace(":", "").substr(1);
-	console.info(result);
+	//console.info(result);
 	setAnswer(result);
 }
 
@@ -54,11 +54,18 @@ function setAnswer(answer) {
 	}, 2000);
 }
 
-document.title = 'begin load';
+if (window.location.host == "favorite.taobao.com") {
+	document.title = 'favorite';
+	document.getElementById("PopupFavorForm").submit();
 
-if (document.getElementById('J_Question').getElementsByTagName('em')[0].innerText == "试用品申请成功后需提交") {
-	setAnswer("报告");
-} else {
-	var taobaohref = escape(document.getElementById('J_Question').getElementsByTagName('a')[0].href);
-	js("http://127.0.0.1:7702/taobao/" + taobaohref);
+} else if (window.location.host == "try.taobao.com") {
+	document.title = 'begin load';
+	if (document.getElementById('J_Question').getElementsByTagName('em')[0].innerText == "试用品申请成功后需提交") {
+		setAnswer("报告");
+	} else {
+		var taobaohref = escape(document.getElementById('J_Question').getElementsByTagName('a')[0].href);
+		js("http://127.0.0.1:7702/taobao/" + taobaohref);
+	}
+	console.info("open:", document.getElementById("J_Favorite").getElementsByTagName('a')[0].href);
+	open(document.getElementById("J_Favorite").getElementsByTagName('a')[0].href);
 }
