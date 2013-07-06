@@ -54,6 +54,9 @@ def taobao(path):
     response.set_header("Access-Control-Allow-Origin", "*")
     index = data.index('attributes-list') + 15
     data = data[index:]
+    if 'J_AttrUL' in data:
+        index = data.index('J_AttrUL')+5
+        data = data[index:]
     index = data.index('</div>')
     data = data[:index]
     data = re.subn("<.+?>", "\n", data)[0]
