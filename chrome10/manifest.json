@@ -1,0 +1,17 @@
+{
+	"name": "taobao10",
+	"manifest_version": 2,
+	"version": "0.1",
+	"description": "Get taobao try info.",
+	"background": {
+		//"scripts": ["background.js"]
+	},
+	"content_scripts": [{
+			"matches": ["http://*.taobao.com/*"	],
+			"js": ["taobao.js"],
+			//"run_at": "document_end",
+			"all_frames": false
+		}
+	] ,
+	"permissions": ["background"]
+}
