@@ -52,14 +52,39 @@ function setAnswer(answer) {
             }
         }
         document.getElementsByClassName("try-btn-submit")[0].click();
+
+
+
     }, 2000);
 }
+
+tryisok=false;
 
 if (window.location.host == "favorite.taobao.com") {
     document.title = 'favorite';
     document.getElementById("PopupFavorForm").submit();
 
 } else if (window.location.host == "try.taobao.com") {
+
+    setInterval(function(){
+        if(tryisok) return;
+        var r = document.querySelector("p.fy-bigtext");
+        if(r && r.innerText.indexOf("成功申请")>0)
+        {
+            tryisok = true;
+            var rid = /id=(\d+)/.exec(location.search);
+            if(rid) {
+                var id=rid[1];
+                document.title = "OK:"+id;
+                console.info("申请试用成功:"+id);
+                setTimeout(function() {
+                    window.close();
+                }, 5000);
+            }
+        }
+    },3000);
+
+
     setTimeout(function() {
         document.title = 'begin load';
 
