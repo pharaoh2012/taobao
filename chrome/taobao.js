@@ -59,6 +59,7 @@ function setAnswer(answer) {
 }
 
 tryisok=false;
+tryneedlogin=false;
 
 if (window.location.host == "favorite.taobao.com") {
     document.title = 'favorite';
@@ -77,6 +78,9 @@ if (window.location.host == "favorite.taobao.com") {
                 var id=rid[1];
                 document.title = "OK:"+id;
                 console.info("申请试用成功:"+id);
+                $.get('http://tank365.duapp.com/taobao/ok/'+id,null,function(){
+
+                });
                 setTimeout(function() {
                     window.close();
                 }, 5000);
@@ -84,6 +88,14 @@ if (window.location.host == "favorite.taobao.com") {
         }
     },3000);
 
+    setInterval(function(){
+        if(tryneedlogin) return;
+        if(document.querySelector(".try-login-iframe"))
+        {
+            tryneedlogin = true;
+            alert("need login");
+        }
+    },2000);
 
     setTimeout(function() {
         document.title = 'begin load';
