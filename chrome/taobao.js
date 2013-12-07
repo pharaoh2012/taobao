@@ -51,11 +51,10 @@ function setAnswer(answer) {
                 return;
             }
         }
+
         document.getElementsByClassName("try-btn-submit")[0].click();
 
-
-
-    }, 2000);
+    }, 5000);
 }
 
 tryisok=false;
@@ -78,9 +77,7 @@ if (window.location.host == "favorite.taobao.com") {
                 var id=rid[1];
                 document.title = "OK:"+id;
                 console.info("申请试用成功:"+id);
-                $.get('http://tank365.duapp.com/taobao/ok/'+id,null,function(){
-
-                });
+                getUrl('http://tank365.duapp.com/taobao/ok/'+id);
                 setTimeout(function() {
                     window.close();
                 }, 5000);
@@ -103,8 +100,8 @@ if (window.location.host == "favorite.taobao.com") {
         if (document.getElementById('J_Question').getElementsByTagName('em')[0].innerText == "试用品申请成功后需提交") {
             setAnswer("报告");
         } else {
-            var taobaohref = escape(document.getElementById('J_Question').getElementsByTagName('a')[0].href);
-            js("http://127.0.0.1:7702/taobao/" + taobaohref);
+            var taobaohref = encodeURIComponent(document.getElementById('J_Question').getElementsByTagName('a')[0].href);
+            js("http://tank365.duapp.com/taobao/item?url=" + taobaohref);
         }
 
         var msg = {
