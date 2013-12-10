@@ -51,14 +51,19 @@ function setAnswer(answer) {
                 return;
             }
         }
-
-        document.getElementsByClassName("try-btn-submit")[0].click();
-
+        var classnames = ['try-detail-buy','try-btn-submit'];
+        for (var i = classnames.length - 1; i >= 0; i--) {
+            var btn = document.getElementsByClassName(classnames[i]);
+            if(btn.length>0) {
+                btn[0].click();
+                return;
+            }
+        }
     }, 5000);
 }
 
-tryisok=false;
-tryneedlogin=false;
+tryisok = false;
+tryneedlogin = false;
 
 if (window.location.host == "favorite.taobao.com") {
     document.title = 'favorite';
@@ -66,33 +71,31 @@ if (window.location.host == "favorite.taobao.com") {
 
 } else if (window.location.host == "try.taobao.com") {
 
-    setInterval(function(){
-        if(tryisok) return;
+    setInterval(function() {
+        if (tryisok) return;
         var r = document.querySelector("p.fy-bigtext");
-        if(r && r.innerText.indexOf("成功申请")>0)
-        {
+        if (r && r.innerText.indexOf("成功申请") > 0) {
             tryisok = true;
             var rid = /id=(\d+)/.exec(location.search);
-            if(rid) {
-                var id=rid[1];
-                document.title = "OK:"+id;
-                console.info("申请试用成功:"+id);
-                getUrl('http://tank365.duapp.com/taobao/ok/'+id);
+            if (rid) {
+                var id = rid[1];
+                document.title = "OK:" + id;
+                console.info("申请试用成功:" + id);
+                getUrl('http://tank365.duapp.com/taobao/ok/' + id);
                 setTimeout(function() {
                     window.close();
                 }, 5000);
             }
         }
-    },3000);
+    }, 3000);
 
-    setInterval(function(){
-        if(tryneedlogin) return;
-        if(document.querySelector(".try-login-iframe"))
-        {
+    setInterval(function() {
+        if (tryneedlogin) return;
+        if (document.querySelector(".try-login-iframe")) {
             tryneedlogin = true;
             alert("need login");
         }
-    },2000);
+    }, 2000);
 
     setTimeout(function() {
         document.title = 'begin load';
